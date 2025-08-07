@@ -21,7 +21,6 @@ class LoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(const SnackBar(content: Text("Login successful")));
-            // TODO: Navigate to dashboard
           } else if (state is LoginError) {
             ScaffoldMessenger.of(
               context,
@@ -105,7 +104,7 @@ class LoginScreen extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (_) => RegisterScreen()),
                         );

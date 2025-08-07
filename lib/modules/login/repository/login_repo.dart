@@ -12,7 +12,6 @@ class LoginRepo {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
-    log(response.toString());
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

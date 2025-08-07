@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finzenz_app/modules/login/repository/login_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,9 @@ class LoginCubit extends Cubit<LoginState> {
 
     try {
       final user = await loginRepo.loginUser(email, password);
+
       if (user != null) {
+        log(user.fullName);
         emit(LoginSuccess(user: user));
       } else {
         emit(const LoginError("Invalid credentials"));
