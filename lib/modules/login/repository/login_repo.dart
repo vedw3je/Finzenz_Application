@@ -15,6 +15,7 @@ class LoginRepo {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      log(response.body);
       return User.fromJson(data);
     } else {
       throw Exception('Login failed: ${response.body}');

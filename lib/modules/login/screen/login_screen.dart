@@ -1,4 +1,5 @@
 import 'package:finzenz_app/commonwidgets/textfieldwidget.dart';
+import 'package:finzenz_app/modules/home/screen/home_screen.dart';
 import 'package:finzenz_app/modules/login/bloc/login_cubit.dart';
 import 'package:finzenz_app/modules/login/bloc/login_state.dart';
 import 'package:finzenz_app/modules/register/screen/register_screen.dart';
@@ -18,9 +19,10 @@ class LoginScreen extends StatelessWidget {
       body: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            ScaffoldMessenger.of(
+            Navigator.pushReplacement(
               context,
-            ).showSnackBar(const SnackBar(content: Text("Login successful")));
+              MaterialPageRoute(builder: (_) => HomeScreen()),
+            );
           } else if (state is LoginError) {
             ScaffoldMessenger.of(
               context,

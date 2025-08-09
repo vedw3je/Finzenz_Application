@@ -1,9 +1,14 @@
+import 'dart:developer';
+
+import 'package:finzenz_app/modules/register/repository/register_repo.dart';
+import 'package:finzenz_app/prefservice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit() : super(RegisterInitial());
+  final RegisterRepo registerRepo;
+  RegisterCubit(this.registerRepo) : super(RegisterInitial());
 
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -29,19 +34,23 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterLoading());
 
     try {
-      // TODO: Replace with actual API logic
-      await Future.delayed(const Duration(seconds: 2));
+      final user = await registerRepo.registerUser(
+        fullName: fullNameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text,
+        phone: phoneController.text.trim(),
+        address: addressController.text.trim(),
+        gender: gender,
+        dateOfBirth: dobController.text.trim(),
+        isActive: true,
+        kycVerified: false,
+      );
 
-      // Example validation (replace with actual)
-      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-        emit(RegisterError("Email and password cannot be empty"));
-        return;
-      }
-
-      // All good
-      emit(RegisterSuccess());
+      await PrefService.saveUser(user);
+      emit(RegisterSuccess(user: user));
     } catch (e) {
-      emit(RegisterError("Something went wrong"));
+      log(e.toString());
+      emit(RegisterError(e.toString()));
     }
   }
 

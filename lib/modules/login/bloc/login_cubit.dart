@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:finzenz_app/modules/login/repository/login_repo.dart';
+import 'package:finzenz_app/prefservice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'login_state.dart';
@@ -29,6 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
 
       if (user != null) {
         log(user.fullName);
+        await PrefService.saveUser(user);
         emit(LoginSuccess(user: user));
       } else {
         emit(const LoginError("Invalid credentials"));
