@@ -2,6 +2,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:finzenz_app/modules/home/model/transaction_model.dart';
 
+import 'package:equatable/equatable.dart';
+import 'package:finzenz_app/modules/home/model/transaction_model.dart';
+
 abstract class HomeState extends Equatable {
   const HomeState();
 
@@ -15,11 +18,17 @@ class HomeLoading extends HomeState {}
 
 class HomeFetched extends HomeState {
   final List<Transaction> transactions;
+  final double totalIncome;
+  final double totalExpense;
 
-  const HomeFetched({required this.transactions});
+  const HomeFetched({
+    required this.transactions,
+    required this.totalIncome,
+    required this.totalExpense,
+  });
 
   @override
-  List<Object?> get props => [transactions];
+  List<Object?> get props => [transactions, totalIncome, totalExpense];
 }
 
 class HomeError extends HomeState {
