@@ -1,16 +1,8 @@
 // home_state.dart
-import 'package:equatable/equatable.dart';
+import 'package:finzenz_app/modules/home/model/account_model.dart';
 import 'package:finzenz_app/modules/home/model/transaction_model.dart';
 
-import 'package:equatable/equatable.dart';
-import 'package:finzenz_app/modules/home/model/transaction_model.dart';
-
-abstract class HomeState extends Equatable {
-  const HomeState();
-
-  @override
-  List<Object?> get props => [];
-}
+abstract class HomeState {}
 
 class HomeInitial extends HomeState {}
 
@@ -20,22 +12,31 @@ class HomeFetched extends HomeState {
   final List<Transaction> transactions;
   final double totalIncome;
   final double totalExpense;
+  final List<Account> accounts;
 
-  const HomeFetched({
+  HomeFetched({
     required this.transactions,
     required this.totalIncome,
     required this.totalExpense,
+    required this.accounts,
   });
 
-  @override
-  List<Object?> get props => [transactions, totalIncome, totalExpense];
+  HomeFetched copyWith({
+    List<Transaction>? transactions,
+    double? totalIncome,
+    double? totalExpense,
+    List<Account>? accounts,
+  }) {
+    return HomeFetched(
+      transactions: transactions ?? this.transactions,
+      totalIncome: totalIncome ?? this.totalIncome,
+      totalExpense: totalExpense ?? this.totalExpense,
+      accounts: accounts ?? this.accounts,
+    );
+  }
 }
 
 class HomeError extends HomeState {
   final String message;
-
-  const HomeError({required this.message});
-
-  @override
-  List<Object?> get props => [message];
+  HomeError({required this.message});
 }

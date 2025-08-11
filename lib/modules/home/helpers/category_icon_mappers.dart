@@ -28,4 +28,8 @@ class CategoryIconMapper {
   static IconData getIcon(String category) {
     return _categoryIcons[category] ?? Icons.category;
   }
+
+  static List<String> getCategories() {
+    return _categoryIcons.keys.toList();
+  }
 }

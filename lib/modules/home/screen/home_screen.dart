@@ -30,7 +30,11 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const Expanded(
-                      child: Center(child: Text("No transactions found.")),
+                      child: Center(
+                        child: Text(
+                          "No transactions added. Lets Add transactions!",
+                        ),
+                      ),
                     ),
                   ],
                 );
@@ -56,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               );
             } else if (state is HomeError) {
-              return Center(child: Text('Error: ${state.message}'));
+              return Center(child: Text(state.message));
             }
             return const SizedBox();
           },

@@ -15,7 +15,7 @@ class RegisterRepo {
     required bool isActive,
     required bool kycVerified,
   }) async {
-    final url = Uri.parse('http://10.0.2.2:8080/api/users/register');
+    final url = Uri.parse('http://10.0.2.2:8081/api/users/register');
 
     final body = {
       "fullName": fullName,

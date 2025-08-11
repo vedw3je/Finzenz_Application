@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../model/transaction_model.dart';
 
 class TransactionRepository {
-  final String baseUrl = "http://10.0.2.2:8080";
+  final String baseUrl = "http://10.0.2.2:8081";
 
   Future<List<Transaction>> getTransactionsByUser() async {
     final user = await PrefService.getUser();

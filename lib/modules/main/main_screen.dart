@@ -1,6 +1,8 @@
 import 'package:finzenz_app/modules/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../add_transaction/screens/transaction_modal.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -44,7 +46,13 @@ class _MainScreenState extends State<MainScreen> {
         ),
         child: FloatingActionButton(
           onPressed: () {
-            // _showAddTransactionModal(context);
+            showModalBottomSheet(
+              isDismissible: false,
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => const TransactionModal(),
+            );
           },
           backgroundColor: Colors.transparent,
           elevation: 0,

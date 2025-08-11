@@ -2,6 +2,7 @@ import 'package:finzenz_app/commonwidgets/textfieldwidget.dart';
 import 'package:finzenz_app/modules/home/screen/home_screen.dart';
 import 'package:finzenz_app/modules/login/bloc/login_cubit.dart';
 import 'package:finzenz_app/modules/login/bloc/login_state.dart';
+import 'package:finzenz_app/modules/main/main_screen.dart';
 import 'package:finzenz_app/modules/register/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginSuccess) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => HomeScreen()),
+              MaterialPageRoute(builder: (_) => MainScreen()),
             );
           } else if (state is LoginError) {
             ScaffoldMessenger.of(
