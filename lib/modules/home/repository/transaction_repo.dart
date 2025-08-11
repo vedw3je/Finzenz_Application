@@ -61,4 +61,37 @@ class TransactionRepository {
       throw Exception('Failed to load income');
     }
   }
+
+  Future<bool> saveTransaction({
+    required int accountId,
+    required double amount,
+    required DateTime transactionDate,
+    required String description,
+    required String transactionType,
+    required String category,
+  }) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/transactions');
+
+      final body = {
+        "accountId": accountId,
+        "amount": amount,
+        "transactionDate": transactionDate.toIso8601String(),
+        "description": description,
+        "transactionType": transactionType,
+        "category": category,
+      };
+
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      print("Error saving transaction: $e");
+      return false;
+    }
+  }
 }

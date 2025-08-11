@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../add_transaction/screens/transaction_modal.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               context: context,
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
-              builder: (_) => const TransactionModal(),
+              builder: (_) => TransactionModal(parentContext: context),
             );
           },
           backgroundColor: Colors.transparent,
