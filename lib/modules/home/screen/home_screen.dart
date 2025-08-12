@@ -6,14 +6,26 @@ import 'package:finzenz_app/modules/home/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    final cubit = context.read<HomeCubit>();
+    cubit.getUserDetails();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildFinzenzAppBar(),
+      appBar: buildFinzenzAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<HomeCubit, HomeState>(

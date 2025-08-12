@@ -1,4 +1,6 @@
+import 'package:finzenz_app/modules/home/model/user_model.dart';
 import 'package:finzenz_app/modules/home/repository/account_repository.dart';
+import 'package:finzenz_app/prefservice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/transaction_model.dart';
 import '../repository/transaction_repo.dart';
@@ -12,6 +14,8 @@ class HomeCubit extends Cubit<HomeState> {
     required this.transactionRepository,
     required this.accountRepository,
   }) : super(HomeInitial());
+
+  User? user;
 
   Future<void> fetchHomeData() async {
     emit(HomeLoading());
@@ -51,5 +55,10 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       // Optional: handle account fetch error separately
     }
+  }
+
+  void getUserDetails() async {
+    final user = PrefService.getUser();
+    this.user = await user;
   }
 }

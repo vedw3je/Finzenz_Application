@@ -1,6 +1,7 @@
+import 'package:finzenz_app/modules/profile/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 
-AppBar buildFinzenzAppBar() {
+AppBar buildFinzenzAppBar(BuildContext context) {
   return AppBar(
     elevation: 6,
     backgroundColor: const Color(0xFF0D1B2A), // deep blue
@@ -37,7 +38,10 @@ AppBar buildFinzenzAppBar() {
       IconButton(
         icon: const Icon(Icons.account_circle_outlined, color: Colors.white70),
         onPressed: () {
-          // profile action
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ProfileScreen()),
+          );
         },
       ),
     ],

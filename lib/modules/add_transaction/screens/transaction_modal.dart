@@ -39,6 +39,7 @@ class _TransactionModalState extends State<TransactionModal> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        final cubit = context.read<HomeCubit>();
         List<Account> accounts = [];
 
         if (state is HomeFetched && state.accounts != null) {
@@ -259,6 +260,26 @@ class _TransactionModalState extends State<TransactionModal> {
                                   transactionType: transactionType,
                                   category: selectedCategoryName,
                                 );
+                            if (success) {
+                              cubit.fetchHomeData();
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text("Success!"),
+                                  content: Text(
+                                    "Your transaction has been saved succesfully!!",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              Navigator.pop(context);
+                            }
                           }
                         },
                       ),
