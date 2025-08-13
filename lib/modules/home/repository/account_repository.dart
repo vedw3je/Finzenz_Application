@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:finzenz_app/prefservice.dart';
 import 'package:http/http.dart' as http;
+import 'package:finzenz_app/globals.dart';
 
 import '../model/account_model.dart';
 
 class AccountRepository {
-  final String baseUrl = "http://10.0.2.2:8081";
 
   Future<List<Account>> fetchAccountsForUser() async {
     final user = await PrefService.getUser();

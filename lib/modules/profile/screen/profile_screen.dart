@@ -1,10 +1,13 @@
+import 'package:finzenz_app/commonwidgets/finzenzappbar.dart';
+import 'package:finzenz_app/constants/app_colors.dart';
+import 'package:finzenz_app/modules/profile/widget/profile_card.dart';
+import 'package:finzenz_app/modules/profile/widget/section_heading.dart';
 import 'package:finzenz_app/modules/add_transaction/widgets/account_selector.dart';
-import 'package:finzenz_app/modules/home/bloc/home_cubit.dart';
-import 'package:finzenz_app/modules/home/bloc/home_state.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
-import 'package:finzenz_app/modules/home/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../home/bloc/home_cubit.dart';
+import '../../home/bloc/home_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,43 +17,82 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  List<Account> accounts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<HomeCubit>();
+    if (cubit.state is HomeFetched) {
+      accounts = (cubit.state as HomeFetched).accounts;
+    }
+    cubit.fetchHomeData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int? selectedAccountIndex;
-
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        final cubit = context.read<HomeCubit>();
-
-        List<Account> accounts = [];
-
-        if (state is HomeFetched && state.accounts != null) {
-          accounts = state.accounts;
-        }
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AccountSelector(
-                  accounts: accounts,
-                  selectedIndex: selectedAccountIndex,
-                  onSelected: (index) {
-                    setState(() => selectedAccountIndex = index);
-                  },
-                ),
-                SizedBox(height: 20),
-
-                Text(cubit.user!.fullName),
-                Text(cubit.user!.address),
-                Text(cubit.user!.gender),
-                Text(cubit.user!.phone),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Profile",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: AppColors.mainGradient,
           ),
-        );
-      },
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            ProfileCard(),
+            const SizedBox(height: 24),
+            const SectionHeading(title: "Your Accounts"),
+            AccountSelectorSection(accounts: accounts),
+            const SectionHeading(title: "Recent Transactions"),
+          ],
+        ),
+      ),
     );
   }
 }
+
+class AccountSelectorSection extends StatefulWidget {
+  final List<Account> accounts;
+  const AccountSelectorSection({super.key, required this.accounts});
+
+  @override
+  State<AccountSelectorSection> createState() => _AccountSelectorSectionState();
+}
+
+class _AccountSelectorSectionState extends State<AccountSelectorSection> {
+  int? selectedIndex;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AccountSelector(
+          accounts: widget.accounts,
+          selectedIndex: selectedIndex,
+          onSelected: (index) => setState(() => selectedIndex = index),
+        ),
+        const SizedBox(height: 20),
+        if (selectedIndex != null)
+          Text(
+            "Selected Account: ${widget.accounts[selectedIndex!].accountName}",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+      ],
+    );
+  }
+}
+

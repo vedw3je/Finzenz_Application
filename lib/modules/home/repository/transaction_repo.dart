@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:finzenz_app/prefservice.dart';
+import 'package:finzenz_app/globals.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/transaction_model.dart';
 
 class TransactionRepository {
-  final String baseUrl = "http://10.0.2.2:8081";
+
 
   Future<List<Transaction>> getTransactionsByUser() async {
     final user = await PrefService.getUser();
