@@ -25,6 +25,7 @@ class AppTextFormField extends StatelessWidget {
       shadowColor: Colors.grey.withOpacity(0.2),
       borderRadius: BorderRadius.circular(12),
       child: TextFormField(
+        
         controller: controller,
         validator: validator,
         obscureText: obscureText,

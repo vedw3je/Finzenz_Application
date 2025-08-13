@@ -21,11 +21,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         final cubit = context.read<HomeCubit>();
+        
 
         List<Account> accounts = [];
 
         if (state is HomeFetched && state.accounts != null) {
           accounts = state.accounts;
+          
         }
         return Scaffold(
           body: Padding(
