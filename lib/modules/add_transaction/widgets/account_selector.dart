@@ -1,6 +1,9 @@
 import 'package:finzenz_app/modules/home/model/account_model.dart';
+import 'package:finzenz_app/modules/profile/widget/add_account_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:finzenz_app/modules/home/model/account_model.dart';
 
 class AccountSelector extends StatelessWidget {
   final List<Account> accounts;
@@ -20,8 +23,18 @@ class AccountSelector extends StatelessWidget {
       height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: accounts.length,
+        itemCount: accounts.length + 1, // Extra slot for AddAccountButton
         itemBuilder: (context, index) {
+          if (index == accounts.length) {
+            // Add Account Button
+            return AddAccountButton(
+              onTap: () {
+                print("Add account tapped");
+                // Navigate to Add Account Page here
+              },
+            );
+          }
+
           final account = accounts[index];
           final isSelected = index == selectedIndex;
 
@@ -61,7 +74,6 @@ class AccountSelector extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Bank Icon Placeholder
                   CircleAvatar(
                     radius: 26,
                     backgroundColor: isSelected
@@ -74,7 +86,6 @@ class AccountSelector extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 14),
-                  // Bank Details
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:finzenz_app/globals.dart';
 import '../../home/model/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginRepo {
   Future<User?> loginUser(String email, String password) async {
-    final url = Uri.parse('http://10.0.2.2:8081/api/users/login');
+    final url = Uri.parse('$baseUrl/api/users/login');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
