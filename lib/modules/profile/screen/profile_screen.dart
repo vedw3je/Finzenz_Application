@@ -1,5 +1,6 @@
 import 'package:finzenz_app/commonwidgets/finzenzappbar.dart';
 import 'package:finzenz_app/constants/app_colors.dart';
+import 'package:finzenz_app/modules/profile/widget/account_selector.dart';
 import 'package:finzenz_app/modules/profile/widget/profile_card.dart';
 import 'package:finzenz_app/modules/profile/widget/section_heading.dart';
 import 'package:finzenz_app/modules/add_transaction/widgets/account_selector.dart';
@@ -33,16 +34,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Profile",
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text("Profile", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: AppColors.mainGradient,
-          ),
+          decoration: BoxDecoration(gradient: AppColors.mainGradient),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -64,35 +60,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
-class AccountSelectorSection extends StatefulWidget {
-  final List<Account> accounts;
-  const AccountSelectorSection({super.key, required this.accounts});
-
-  @override
-  State<AccountSelectorSection> createState() => _AccountSelectorSectionState();
-}
-
-class _AccountSelectorSectionState extends State<AccountSelectorSection> {
-  int? selectedIndex;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AccountSelector(
-          accounts: widget.accounts,
-          selectedIndex: selectedIndex,
-          onSelected: (index) => setState(() => selectedIndex = index),
-        ),
-        const SizedBox(height: 20),
-        if (selectedIndex != null)
-          Text(
-            "Selected Account: ${widget.accounts[selectedIndex!].accountName}",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-      ],
-    );
-  }
-}
-
