@@ -22,7 +22,7 @@ class ProfileCard extends StatelessWidget {
         } else {
           final user = snapshot.data!;
           content = Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

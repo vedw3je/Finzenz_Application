@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AddAccountButton extends StatelessWidget {
+class AddButton extends StatelessWidget {
   final VoidCallback onTap;
+  final String buttonText;
 
-  const AddAccountButton({super.key, required this.onTap});
+  const AddButton({super.key, required this.onTap, required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,8 @@ class AddAccountButton extends StatelessWidget {
                 child: const Icon(Icons.add, size: 28, color: Colors.white),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Add Account",
+              Text(
+                buttonText,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

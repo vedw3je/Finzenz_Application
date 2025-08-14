@@ -1,5 +1,6 @@
 import 'package:finzenz_app/modules/home/model/user_model.dart';
 import 'package:finzenz_app/modules/home/repository/account_repository.dart';
+import 'package:finzenz_app/modules/home/repository/budget_repository.dart';
 import 'package:finzenz_app/prefservice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/transaction_model.dart';
@@ -9,10 +10,12 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final TransactionRepository transactionRepository;
   final AccountRepository accountRepository;
+  final BudgetRepository budgetRepository;
 
   HomeCubit({
     required this.transactionRepository,
     required this.accountRepository,
+    required this.budgetRepository,
   }) : super(HomeInitial());
 
   User? user;
@@ -36,12 +39,14 @@ class HomeCubit extends Cubit<HomeState> {
           totalIncome: totalIncome,
           totalExpense: totalExpense,
           accounts: [],
+          budgets: [],
         ),
       );
 
       await fetchAccounts();
+      await fetchBudgets();
     } catch (e) {
-      emit(HomeError(message: "Could not load transactions at the moment"));
+      emit(HomeError(message: "Could not load home data at the moment"));
     }
   }
 
@@ -54,6 +59,18 @@ class HomeCubit extends Cubit<HomeState> {
       }
     } catch (e) {
       // Optional: handle account fetch error separately
+    }
+  }
+
+  Future<void> fetchBudgets() async {
+    try {
+      final budgets = await budgetRepository.fetchBudgetsForUser();
+
+      if (state is HomeFetched) {
+        emit((state as HomeFetched).copyWith(budgets: budgets));
+      }
+    } catch (e) {
+      // Optional: handle budgets fetch error separately
     }
   }
 

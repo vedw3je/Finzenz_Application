@@ -1,21 +1,19 @@
 import 'dart:developer';
-
 import 'package:finzenz_app/commonwidgets/alert_box.dart';
-import 'package:finzenz_app/modules/home/model/account_model.dart';
+import 'package:finzenz_app/modules/add_budgets/budgets_modal.dart';
+import 'package:finzenz_app/modules/home/model/budget_model.dart';
 import 'package:finzenz_app/modules/profile/widget/add_account_button.dart';
 import 'package:flutter/material.dart';
 
-import '../../add_account/screens/account_modal.dart';
-
-class AccountSelector extends StatelessWidget {
-  final List<Account> accounts;
+class BudgetList extends StatelessWidget {
+  final List<Budget> budgets;
   final int? selectedIndex;
   final Function(int) onSelected;
   final bool? isProfile;
 
-  const AccountSelector({
+  const BudgetList({
     super.key,
-    required this.accounts,
+    required this.budgets,
     required this.selectedIndex,
     required this.onSelected,
     this.isProfile,
@@ -27,14 +25,12 @@ class AccountSelector extends StatelessWidget {
       height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: (isProfile == null) ? accounts.length : accounts.length + 1,
+        itemCount: budgets.length + 1,
         itemBuilder: (context, index) {
-          if (index == accounts.length && isProfile == true) {
+          if (index == budgets.length) {
             return AddButton(
-              buttonText: "Add Account",
+              buttonText: "Add Budget",
               onTap: () {
-                print("Add account tapped");
-
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -44,7 +40,7 @@ class AccountSelector extends StatelessWidget {
                       padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom,
                       ),
-                      child: AccountModal(parentContext: context),
+                      child: AddBudgetModal(parentContext: context),
                     );
                   },
                 );
@@ -52,24 +48,22 @@ class AccountSelector extends StatelessWidget {
             );
           }
 
-          final account = accounts[index];
+          final budget = budgets[index];
           final isSelected = index == selectedIndex;
 
           return GestureDetector(
             onLongPress: () {
-              if (isProfile == true) {
-                showDialog(
-                  context: context,
-                  builder: (context) => FinzenzAlert(
-                    isDeleteDialog: true,
-                    title: "Delete Account",
-                    body: "Are you sure you want to delete your account",
-                    onOkay: () {
-                      log("okay pressed");
-                    },
-                  ),
-                );
-              }
+              showDialog(
+                context: context,
+                builder: (context) => FinzenzAlert(
+                  isDeleteDialog: true,
+                  title: "Delete Budget",
+                  body: "Are you sure you want to delete this budget?",
+                  onOkay: () {
+                    log("Budget delete confirmed for: ${budget.category}");
+                  },
+                ),
+              );
             },
             onTap: () => onSelected(index),
             child: AnimatedContainer(
@@ -83,8 +77,8 @@ class AccountSelector extends StatelessWidget {
                     ? isSelected
                           ? LinearGradient(
                               colors: [
-                                Colors.blue.shade50,
-                                Colors.blue.shade100,
+                                Colors.green.shade50,
+                                Colors.green.shade100,
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
@@ -98,10 +92,10 @@ class AccountSelector extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: (isProfile == null)
                     ? Border.all(
-                        color: isSelected ? Colors.blue : Colors.grey.shade300,
+                        color: isSelected ? Colors.green : Colors.grey.shade300,
                         width: 2,
                       )
-                    : Border.all(color: Colors.blue),
+                    : Border.all(color: Colors.green),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade300.withOpacity(0.4),
@@ -117,11 +111,11 @@ class AccountSelector extends StatelessWidget {
                     radius: 26,
                     backgroundColor: (isProfile == null)
                         ? isSelected
-                              ? Colors.blue
+                              ? Colors.green
                               : Colors.grey.shade300
-                        : Colors.blue,
+                        : Colors.green,
                     child: const Icon(
-                      Icons.account_balance,
+                      Icons.pie_chart,
                       size: 28,
                       color: Colors.white,
                     ),
@@ -129,11 +123,12 @@ class AccountSelector extends StatelessWidget {
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          account.institutionName ?? "Unknown Bank",
+                          budget.category ?? "No Category",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -142,7 +137,7 @@ class AccountSelector extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          account.accountNumber ?? "N/A",
+                          "${budget.amount?.toStringAsFixed(2) ?? '0.00'} ",
                           style: TextStyle(
                             color: Colors.grey.shade700,
                             fontSize: 14,
@@ -150,15 +145,11 @@ class AccountSelector extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          "Balance: ${account.balance?.toStringAsFixed(2) ?? '0.00'} ${account.currency ?? ''}",
+                          "${budget.startDate.toString().substring(0, 11)} → ${budget.endDate.toString().substring(0, 11)}",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
-                            color: (isProfile == null)
-                                ? isSelected
-                                      ? Colors.blue.shade800
-                                      : Colors.grey.shade800
-                                : Colors.grey.shade800,
+                            color: Colors.grey.shade800,
                           ),
                         ),
                       ],

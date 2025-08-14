@@ -1,4 +1,6 @@
 import 'package:finzenz_app/constants/app_colors.dart';
+import 'package:finzenz_app/modules/home/model/budget_model.dart';
+import 'package:finzenz_app/modules/profile/widget/budget_list.dart';
 import 'package:finzenz_app/modules/profile/widget/profile_card.dart';
 import 'package:finzenz_app/modules/profile/widget/section_heading.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
@@ -39,9 +41,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           List<Account> accounts = [];
+          List<Budget> budgets = [];
 
           if (state is HomeFetched) {
             accounts = state.accounts ?? [];
+            budgets = state.budgets ?? [];
           }
 
           return Padding(
@@ -49,19 +53,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
                 ProfileCard(),
-                const SizedBox(height: 24),
+
                 const SectionHeading(title: "Your Accounts"),
                 AccountSelector(
+                  isProfile: true,
                   accounts: accounts,
                   selectedIndex: selectedAccountIndex,
-                  onSelected: (index) {
-                    setState(() => selectedAccountIndex = index);
-                  },
+                  onSelected: (index) {},
                 ),
-                const SizedBox(height: 24),
-                const SectionHeading(title: "Recent Transactions"),
+
+                const SectionHeading(title: "Your Budgets"),
+                BudgetList(
+                  isProfile: true,
+                  budgets: budgets,
+                  selectedIndex: selectedAccountIndex,
+                  onSelected: (index) {},
+                ),
+                /////
+                ///
+                ///
               ],
             ),
           );
