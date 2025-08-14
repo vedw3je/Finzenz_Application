@@ -21,4 +21,45 @@ class AccountRepository {
       throw Exception("Failed to fetch accounts: ${response.statusCode}");
     }
   }
+
+
+
+
+  Future<bool> saveAccount({
+    required String accountName,
+    required String accountType,
+    required String institutionName,
+    required String accountNumber,
+    required double balance,
+    required String currency,
+    required bool isActive,
+    required int userId,
+  }) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/accounts/create');
+
+      final body = {
+        "accountName": accountName,
+        "accountType": accountType,
+        "institutionName": institutionName,
+        "accountNumber": accountNumber,
+        "balance": balance,
+        "currency": currency,
+        "isActive": isActive,
+        "userId": userId,
+      };
+
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      print("Error saving account: $e");
+      return false;
+    }
+  }
+
 }
