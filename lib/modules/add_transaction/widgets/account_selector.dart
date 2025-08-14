@@ -76,7 +76,7 @@ class AccountSelector extends StatelessWidget {
             onTap: () => onSelected(index),
             child: AccountCard(
               account: accounts[index],
-              isProfile: true,
+              isProfile: isProfile,
               isSelected: selectedIndex == index,
             ),
           );
