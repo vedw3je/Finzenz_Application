@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:finzenz_app/commonwidgets/alert_box.dart';
 import 'package:finzenz_app/modules/add_budgets/budgets_modal.dart';
+import 'package:finzenz_app/modules/home/helpers/category_icon_mappers.dart';
 import 'package:finzenz_app/modules/home/model/budget_model.dart';
 import 'package:finzenz_app/modules/profile/widget/add_account_button.dart';
 import 'package:flutter/material.dart';
@@ -114,8 +115,8 @@ class BudgetList extends StatelessWidget {
                               ? Colors.green
                               : Colors.grey.shade300
                         : Colors.green,
-                    child: const Icon(
-                      Icons.pie_chart,
+                    child: Icon(
+                      CategoryIconMapper.getIcon(budget.category),
                       size: 28,
                       color: Colors.white,
                     ),
