@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
 
+import '../../add_account/screens/account_modal.dart';
+
 class AccountSelector extends StatelessWidget {
   final List<Account> accounts;
   final int? selectedIndex;
@@ -23,17 +25,32 @@ class AccountSelector extends StatelessWidget {
       height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: accounts.length + 1, // Extra slot for AddAccountButton
+        itemCount: accounts.length + 1,
         itemBuilder: (context, index) {
           if (index == accounts.length) {
-            // Add Account Button
             return AddAccountButton(
               onTap: () {
                 print("Add account tapped");
-                // Navigate to Add Account Page here
+
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: AccountModal(
+                        parentContext: context,
+                      ),
+                    );
+                  },
+                );
               },
             );
           }
+
 
           final account = accounts[index];
           final isSelected = index == selectedIndex;
