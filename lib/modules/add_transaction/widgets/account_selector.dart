@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:finzenz_app/commonwidgets/alert_box.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
 import 'package:finzenz_app/modules/profile/widget/add_account_button.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +44,7 @@ class AccountSelector extends StatelessWidget {
                       padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom,
                       ),
-                      child: AccountModal(
-                        parentContext: context,
-                      ),
+                      child: AccountModal(parentContext: context),
                     );
                   },
                 );
@@ -51,11 +52,23 @@ class AccountSelector extends StatelessWidget {
             );
           }
 
-
           final account = accounts[index];
           final isSelected = index == selectedIndex;
 
           return GestureDetector(
+            onLongPress: () {
+              showDialog(
+                context: context,
+                builder: (context) => FinzenzAlert(
+                  isDeleteDialog: true,
+                  title: "Delete Account",
+                  body: "Are you sure you want to delete your account",
+                  onOkay: () {
+                    log("okay pressed");
+                  },
+                ),
+              );
+            },
             onTap: () => onSelected(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
