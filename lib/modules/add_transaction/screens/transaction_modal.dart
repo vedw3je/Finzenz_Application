@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:finzenz_app/commonwidgets/alert_box.dart';
 import 'package:finzenz_app/commonwidgets/textfieldwidget.dart';
 import 'package:finzenz_app/modules/add_transaction/widgets/account_selector.dart';
 import 'package:finzenz_app/modules/add_transaction/widgets/category_selector.dart';
@@ -197,18 +198,11 @@ class _TransactionModalState extends State<TransactionModal> {
                         onTap: () async {
                           if (selectedAccountIndex == null) {
                             showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text("Missing Fields"),
-                                content: Text(
-                                  "Please select an account and category.",
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text("OK"),
-                                  ),
-                                ],
+                              context: widget.parentContext,
+                              builder: (context) => FinzenzAlert(
+                                title: "Select Account",
+                                body:
+                                    "Please select an account to add Transaction!",
                               ),
                             );
 
@@ -216,23 +210,23 @@ class _TransactionModalState extends State<TransactionModal> {
                           }
 
                           if (selectedCategoryIndex == null) {
-                            ScaffoldMessenger.of(
-                              widget.parentContext,
-                            ).showSnackBar(
-                              const SnackBar(
-                                content: Text("Please select a category"),
+                            showDialog(
+                              context: widget.parentContext,
+                              builder: (context) => FinzenzAlert(
+                                title: "Select Category",
+                                body:
+                                    "Please select the category of transaction!",
                               ),
                             );
                             return;
                           }
                           if (selectedTransactionTypeIndex == null) {
-                            ScaffoldMessenger.of(
-                              widget.parentContext,
-                            ).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  "Please select a transaction type",
-                                ),
+                            showDialog(
+                              context: widget.parentContext,
+                              builder: (context) => FinzenzAlert(
+                                title: "Select Type",
+                                body:
+                                    "Please select the type of transaction made!",
                               ),
                             );
                             return;
@@ -261,22 +255,15 @@ class _TransactionModalState extends State<TransactionModal> {
                                   category: selectedCategoryName,
                                 );
                             if (success) {
-                              cubit.fetchHomeData();
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: Text("Success!"),
-                                  content: Text(
-                                    "Your transaction has been saved succesfully!!",
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text("OK"),
-                                    ),
-                                  ],
+                              await showDialog(
+                                context: widget.parentContext,
+                                builder: (context) => FinzenzAlert(
+                                  title: "Save Success",
+                                  body:
+                                      "Your transaction is saved successfully!",
                                 ),
                               );
+                              cubit.fetchHomeData();
 
                               Navigator.pop(context);
                             }
