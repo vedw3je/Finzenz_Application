@@ -22,32 +22,34 @@ class ProfileCard extends StatelessWidget {
         } else {
           final user = snapshot.data!;
           content = Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                /// Profile Picture with shadow
+                // Profile Picture with glow border
                 Container(
+                  padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.8),
-                      width: 2,
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF6EE7B7), Color(0xFF3B82F6)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.teal.withOpacity(0.25),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
+                        color: Colors.tealAccent.withOpacity(0.4),
+                        blurRadius: 20,
+                        spreadRadius: 2,
                       ),
                     ],
                   ),
-                  child: ProfilePicture(radius: 45),
+                  child: const ProfilePicture(radius: 45),
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 18),
 
-                /// User details
+                // User details
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,16 +60,16 @@ class ProfileCard extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
-                          color: Colors.black87,
+                          color: Colors.white,
                         ),
                       ),
                       const SizedBox(height: 6),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.email_outlined,
                             size: 16,
-                            color: Colors.black54,
+                            color: Colors.white70,
                           ),
                           const SizedBox(width: 6),
                           Expanded(
@@ -75,7 +77,7 @@ class ProfileCard extends StatelessWidget {
                               user.email,
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
-                                color: Colors.black54,
+                                color: Colors.white70,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -85,17 +87,17 @@ class ProfileCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.phone_outlined,
                             size: 16,
-                            color: Colors.black87,
+                            color: Colors.white,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             user.phone,
                             style: GoogleFonts.poppins(
                               fontSize: 15,
-                              color: Colors.black87,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -105,7 +107,7 @@ class ProfileCard extends StatelessWidget {
                         user.address,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: Colors.black54,
+                          color: Colors.white70,
                         ),
                       ),
                     ],
@@ -119,30 +121,43 @@ class ProfileCard extends StatelessWidget {
         return Container(
           width: double.infinity,
           height: 180,
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFFE0F7F4), // light mint teal
-                Color(0xFFB2EBF2), // soft teal
-              ],
+              colors: [Color(0xFF0f2027), Color(0xFF203A43), Color(0xFF2C5364)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.teal.withOpacity(0.5), width: 1.2),
             boxShadow: [
               BoxShadow(
-                color: Colors.teal.withOpacity(0.15),
-                blurRadius: 12,
-                spreadRadius: 2,
-                offset: const Offset(0, 6),
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 20,
+                spreadRadius: 1,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: content,
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                // Glass overlay
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.05),
+                        Colors.white.withOpacity(0.02),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+                content,
+              ],
+            ),
           ),
         );
       },

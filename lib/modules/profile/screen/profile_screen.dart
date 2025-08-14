@@ -17,13 +17,37 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   int selectedAccountIndex = 0;
 
   @override
   void initState() {
     super.initState();
     context.read<HomeCubit>().fetchHomeData();
+  }
+
+  Widget _glassCard({required Widget child}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 0,
+      ), // reduced from 16
+
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.85),
+        borderRadius: BorderRadius.circular(14), // slightly smaller radius
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8, // less shadow = tighter look
+            offset: const Offset(0, 3),
+          ),
+        ],
+        border: Border.all(color: Colors.white.withOpacity(0.4), width: 1.2),
+      ),
+      child: child,
+    );
   }
 
   @override
@@ -48,34 +72,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             budgets = state.budgets ?? [];
           }
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                ProfileCard(),
+          return Stack(
+            children: [
+              // Background gradient layer
+              Container(
+                padding: EdgeInsets.all(0),
+                height: 180,
+                decoration: BoxDecoration(gradient: AppColors.mainGradient),
+              ),
 
-                const SectionHeading(title: "Your Accounts"),
-                AccountSelector(
-                  isProfile: true,
-                  accounts: accounts,
-                  selectedIndex: selectedAccountIndex,
-                  onSelected: (index) {},
-                ),
+              // Foreground content
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
 
-                const SectionHeading(title: "Your Budgets"),
-                BudgetList(
-                  isProfile: true,
-                  budgets: budgets,
-                  selectedIndex: selectedAccountIndex,
-                  onSelected: (index) {},
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 12),
+                    ProfileCard(),
+
+                    _glassCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SectionHeading(title: "Your Accounts"),
+
+                          AccountSelector(
+                            isProfile: true,
+                            accounts: accounts,
+                            selectedIndex: selectedAccountIndex,
+                            onSelected: (index) {
+                              setState(() {
+                                selectedAccountIndex = index;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    _glassCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SectionHeading(title: "Your Budgets"),
+
+                          budgets.isNotEmpty
+                              ? BudgetList(
+                                  isProfile: true,
+                                  budgets: budgets,
+                                  selectedIndex: selectedAccountIndex,
+                                  onSelected: (index) {},
+                                )
+                              : const Text(
+                                  "No budgets set yet. Start adding some!",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                /////
-                ///
-                ///
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

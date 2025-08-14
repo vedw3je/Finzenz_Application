@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:finzenz_app/commonwidgets/alert_box.dart';
+import 'package:finzenz_app/modules/add_transaction/widgets/account_card.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
 import 'package:finzenz_app/modules/profile/widget/add_account_button.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class AccountSelector extends StatelessWidget {
     return SizedBox(
       height: 140,
       child: ListView.builder(
+        padding: EdgeInsets.all(0),
         scrollDirection: Axis.horizontal,
         itemCount: (isProfile == null) ? accounts.length : accounts.length + 1,
         itemBuilder: (context, index) {
@@ -72,100 +74,10 @@ class AccountSelector extends StatelessWidget {
               }
             },
             onTap: () => onSelected(index),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              width: 220,
-              margin: const EdgeInsets.only(right: 14),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: (isProfile == null)
-                    ? isSelected
-                          ? LinearGradient(
-                              colors: [
-                                Colors.blue.shade50,
-                                Colors.blue.shade100,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                          : LinearGradient(
-                              colors: [Colors.white, Colors.grey.shade100],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            )
-                    : null,
-                borderRadius: BorderRadius.circular(16),
-                border: (isProfile == null)
-                    ? Border.all(
-                        color: isSelected ? Colors.blue : Colors.grey.shade300,
-                        width: 2,
-                      )
-                    : Border.all(color: Colors.blue),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300.withOpacity(0.4),
-                    blurRadius: 10,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundColor: (isProfile == null)
-                        ? isSelected
-                              ? Colors.blue
-                              : Colors.grey.shade300
-                        : Colors.blue,
-                    child: const Icon(
-                      Icons.account_balance,
-                      size: 28,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          account.institutionName ?? "Unknown Bank",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          account.accountNumber ?? "N/A",
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          "Balance: ${account.balance?.toStringAsFixed(2) ?? '0.00'} ${account.currency ?? ''}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: (isProfile == null)
-                                ? isSelected
-                                      ? Colors.blue.shade800
-                                      : Colors.grey.shade800
-                                : Colors.grey.shade800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: AccountCard(
+              account: accounts[index],
+              isProfile: true,
+              isSelected: selectedIndex == index,
             ),
           );
         },
