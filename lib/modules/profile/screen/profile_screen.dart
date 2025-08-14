@@ -43,43 +43,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
 
-<<<<<<< HEAD
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        final cubit = context.read<HomeCubit>();
-        
-
-        List<Account> accounts = [];
-
-        if (state is HomeFetched && state.accounts != null) {
-          accounts = state.accounts;
-          
-        }
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AccountSelector(
-                  accounts: accounts,
-                  selectedIndex: selectedAccountIndex,
-                  onSelected: (index) {
-                    setState(() => selectedAccountIndex = index);
-                  },
-                ),
-                SizedBox(height: 20),
-
-                Text(cubit.user!.fullName),
-                Text(cubit.user!.address),
-                Text(cubit.user!.gender),
-                Text(cubit.user!.phone),
-              ],
-            ),
-          ),
-        );
-      },
-=======
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -94,7 +57,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
->>>>>>> profile-ui
     );
   }
 }

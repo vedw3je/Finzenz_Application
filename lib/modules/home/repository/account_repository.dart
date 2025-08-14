@@ -6,7 +6,6 @@ import 'package:finzenz_app/globals.dart';
 import '../model/account_model.dart';
 
 class AccountRepository {
-
   Future<List<Account>> fetchAccountsForUser() async {
     final user = await PrefService.getUser();
     final userId = user!.id;
@@ -21,4 +20,6 @@ class AccountRepository {
       throw Exception("Failed to fetch accounts: ${response.statusCode}");
     }
   }
+
+  //// add account
 }
