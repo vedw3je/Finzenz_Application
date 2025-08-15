@@ -3,6 +3,7 @@
 import 'package:finzenz_app/modules/home/bloc/home_cubit.dart';
 import 'package:finzenz_app/modules/home/repository/account_repository.dart';
 import 'package:finzenz_app/modules/home/repository/budget_repository.dart';
+import 'package:finzenz_app/modules/home/repository/loan_repository.dart';
 import 'package:finzenz_app/modules/home/repository/transaction_repo.dart';
 import 'package:finzenz_app/modules/login/bloc/login_cubit.dart';
 import 'package:finzenz_app/modules/login/repository/login_repo.dart';
@@ -21,6 +22,7 @@ void setupLocator() {
       transactionRepository: TransactionRepository(),
       accountRepository: AccountRepository(),
       budgetRepository: BudgetRepository(),
+      loanRepository: LoanRepository(),
     ),
   );
 }
