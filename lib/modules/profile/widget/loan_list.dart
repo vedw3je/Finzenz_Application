@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import '../../add_loans/loans_modal.dart';
 
-
 class LoanList extends StatelessWidget {
   final List<Loan> loans;
   final int? selectedIndex;

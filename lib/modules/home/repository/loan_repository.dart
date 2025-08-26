@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:finzenz_app/globals.dart';
 import 'package:finzenz_app/modules/home/model/loan_model.dart';
 import 'package:finzenz_app/prefservice.dart';
@@ -9,8 +10,9 @@ class LoanRepository {
     final user = await PrefService.getUser();
     final userId = user!.id;
 
-    final url = Uri.parse("$baseUrl/api/loans/user/$userId");
+    final url = Uri.parse("$baseUrl/api/loans/user/$userId/summary");
     final response = await http.get(url);
+    // log(response.body);
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);

@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 import '../model/transaction_model.dart';
 
 class TransactionRepository {
-
-
   Future<List<Transaction>> getTransactionsByUser() async {
     final user = await PrefService.getUser();
 
@@ -21,7 +19,7 @@ class TransactionRepository {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      log(response.body);
+      // log(response.body);
       final List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Transaction.fromJson(item)).toList();
     } else {
@@ -93,6 +91,31 @@ class TransactionRepository {
     } catch (e) {
       print("Error saving transaction: $e");
       return false;
+    }
+  }
+
+  Future<List<Transaction>> getMonthlyTransactions() async {
+    final user = await PrefService.getUser();
+    DateTime now = DateTime.now();
+    int currentMonth = now.month;
+    int currentYear = now.year;
+
+    if (user == null) {
+      throw Exception("No logged-in user found.");
+    }
+
+    final url = Uri.parse(
+      '$baseUrl/api/transactions/user/${user.id}/monthly?month=$currentMonth&year=$currentYear',
+    );
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      log(response.body);
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => Transaction.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load monthly transactions');
     }
   }
 }

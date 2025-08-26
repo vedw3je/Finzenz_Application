@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finzenz_app/modules/home/model/user_model.dart';
 import 'package:finzenz_app/modules/home/repository/account_repository.dart';
 import 'package:finzenz_app/modules/home/repository/budget_repository.dart';
@@ -28,7 +30,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
     try {
       final results = await Future.wait([
-        transactionRepository.getTransactionsByUser(),
+        transactionRepository.getMonthlyTransactions(),
         transactionRepository.getIncomeForUser(),
         transactionRepository.getExpenseForUser(),
       ]);
@@ -83,6 +85,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> fetchLoans() async {
     try {
       final loans = await loanRepository.fetchLoansForUser();
+      // log(loans.toList().toString());
 
       if (state is HomeFetched) {
         emit((state as HomeFetched).copyWith(loans: loans));

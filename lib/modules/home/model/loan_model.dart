@@ -46,8 +46,9 @@ class Loan {
       emiAmount: (json['emiAmount'] as num).toDouble(),
       startDate: DateTime.parse(json['startDate']),
       endDate: DateTime.parse(json['endDate']),
-      nextDueDate:
-      json['nextDueDate'] != null ? DateTime.parse(json['nextDueDate']) : null,
+      nextDueDate: json['nextDueDate'] != null
+          ? DateTime.parse(json['nextDueDate'])
+          : null,
       status: json['status'],
       recurringIntervalDays: json['recurringIntervalDays'],
       lastPaymentDate: json['lastPaymentDate'] != null

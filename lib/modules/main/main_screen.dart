@@ -1,4 +1,5 @@
 import 'package:finzenz_app/modules/home/screen/home_screen.dart';
+import 'package:finzenz_app/modules/stats/stats_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../add_transaction/screens/transaction_modal.dart';
@@ -13,10 +14,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    const Center(child: Text("Stats Screen")),
-  ];
+  final List<Widget> _screens = [HomeScreen(), StatsScreen()];
 
   @override
   Widget build(BuildContext context) {
