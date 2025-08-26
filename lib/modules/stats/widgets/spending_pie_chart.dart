@@ -17,19 +17,24 @@ class SpendingPieChart extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurple.shade400, Colors.black87],
+              colors: [
+                Colors.indigo.shade900,
+                Colors.black87, // gives depth
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.purpleAccent.withOpacity(0.5),
-                blurRadius: 20,
+                color: Colors.indigo.withOpacity(0.5), // themed shadow
+                blurRadius: 15,
                 spreadRadius: 2,
+                offset: const Offset(0, 6), // subtle lift
               ),
             ],
           ),
+
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SfCircularChart(

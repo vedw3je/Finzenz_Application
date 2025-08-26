@@ -1,5 +1,6 @@
 import 'package:finzenz_app/modules/home/bloc/home_cubit.dart';
 import 'package:finzenz_app/modules/home/bloc/home_state.dart';
+import 'package:finzenz_app/modules/stats/widgets/spending_line_chart.dart';
 import 'package:finzenz_app/modules/stats/widgets/spending_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -43,9 +44,9 @@ class StatsScreen extends StatelessWidget {
               dailyTotals[day] = (dailyTotals[day] ?? 0) + tx.amount;
             }
 
-            final List<_DailyData> lineData =
+            final List<DailyData> lineData =
                 dailyTotals.entries
-                    .map((e) => _DailyData(e.key, e.value))
+                    .map((e) => DailyData(e.key, e.value))
                     .toList()
                   ..sort((a, b) => a.day.compareTo(b.day));
 
@@ -84,41 +85,7 @@ class StatsScreen extends StatelessWidget {
                   ),
 
                   // Line Chart - Daily spending trend
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 6,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: SfCartesianChart(
-                          title: ChartTitle(text: "Daily Spending Trend"),
-                          primaryXAxis: NumericAxis(
-                            title: AxisTitle(text: "Day"),
-                          ),
-                          primaryYAxis: NumericAxis(
-                            title: AxisTitle(text: "Amount"),
-                          ),
-                          tooltipBehavior: TooltipBehavior(enable: true),
-                          series: <CartesianSeries>[
-                            LineSeries<_DailyData, int>(
-                              dataSource: lineData,
-                              xValueMapper: (_DailyData data, _) => data.day,
-                              yValueMapper: (_DailyData data, _) => data.amount,
-                              dataLabelSettings: const DataLabelSettings(
-                                isVisible: true,
-                              ),
-                              markerSettings: const MarkerSettings(
-                                isVisible: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  SpendingLineChart(lineData: lineData),
                 ],
               ),
             );
@@ -137,10 +104,4 @@ class _CategoryData {
   final String category;
   final double amount;
   _CategoryData(this.category, this.amount);
-}
-
-class _DailyData {
-  final int day;
-  final double amount;
-  _DailyData(this.day, this.amount);
 }

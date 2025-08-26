@@ -83,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen>
 
               // Foreground content
               SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -118,15 +117,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                           const SectionHeading(title: "Your Budgets"),
                           budgets.isNotEmpty
                               ? BudgetList(
-                            isProfile: true,
-                            budgets: budgets,
-                            selectedIndex: selectedAccountIndex,
-                            onSelected: (index) {},
-                          )
+                                  isProfile: true,
+                                  budgets: budgets,
+                                  selectedIndex: selectedAccountIndex,
+                                  onSelected: (index) {},
+                                )
                               : const Text(
-                            "No budgets set yet. Start adding some!",
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                                  "No budgets set yet. Start adding some!",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
                         ],
                       ),
                     ),
@@ -139,19 +138,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                           const SectionHeading(title: "Active Loans"),
                           loans.isNotEmpty
                               ? LoanList(
-                            isProfile: true,
-                            loans: loans,
-                            selectedIndex: selectedLoanIndex,
-                            onSelected: (index) {
-                              setState(() {
-                                selectedLoanIndex = index;
-                              });
-                            },
-                          )
+                                  isProfile: true,
+                                  loans: loans,
+                                  selectedIndex: selectedLoanIndex,
+                                  onSelected: (index) {
+                                    setState(() {
+                                      selectedLoanIndex = index;
+                                    });
+                                  },
+                                )
                               : const Text(
-                            "No active loans found.",
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                                  "No active loans found.",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
                         ],
                       ),
                     ),
