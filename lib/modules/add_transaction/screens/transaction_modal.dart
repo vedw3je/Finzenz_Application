@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:finzenz_app/commonwidgets/alert_box.dart';
 import 'package:finzenz_app/commonwidgets/textfieldwidget.dart';
@@ -196,6 +197,10 @@ class _TransactionModalState extends State<TransactionModal> {
                       /// Submit Button
                       TransactionSubmitButton(
                         onTap: () async {
+                          log(
+                            CategoryIconMapper.getCategories()[selectedAccountIndex! +
+                                1],
+                          );
                           if (selectedAccountIndex == null) {
                             showDialog(
                               context: widget.parentContext,
@@ -238,10 +243,10 @@ class _TransactionModalState extends State<TransactionModal> {
                                   selectedTransactionTypeIndex!,
                                 );
                             final selectedCategoryName =
-                                CategoryIconMapper.getCategories()[selectedAccountIndex!];
+                                CategoryIconMapper.getCategories()[selectedCategoryIndex!];
                             final selectedAccount =
                                 accounts[selectedAccountIndex!];
-
+                            log(selectedCategoryName);
                             final success = await TransactionRepository()
                                 .saveTransaction(
                                   accountId: selectedAccount.id,

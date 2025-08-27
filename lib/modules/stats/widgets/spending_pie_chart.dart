@@ -9,12 +9,13 @@ class SpendingPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 12,
         shadowColor: const Color.fromARGB(255, 249, 215, 255).withOpacity(0.6),
         child: Container(
+          height: MediaQuery.of(context).size.height * 0.45,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [

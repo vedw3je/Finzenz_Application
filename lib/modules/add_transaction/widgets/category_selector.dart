@@ -50,7 +50,10 @@ class _CategorySelectorState extends State<CategorySelector> {
                 _pressedIndex = null;
               });
             },
-            onTap: () => widget.onSelected(index),
+            onTap: () {
+              print(CategoryIconMapper.getCategories()[index]);
+              widget.onSelected(index);
+            },
             child: AnimatedScale(
               scale: _pressedIndex == index ? 0.92 : 1.0,
               duration: const Duration(milliseconds: 150),

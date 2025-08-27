@@ -1,13 +1,11 @@
+import 'dart:math';
+
 import 'package:finzenz_app/modules/home/bloc/home_cubit.dart';
 import 'package:finzenz_app/modules/home/bloc/home_state.dart';
 import 'package:finzenz_app/modules/stats/widgets/spending_line_chart.dart';
 import 'package:finzenz_app/modules/stats/widgets/spending_pie_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({Key? key}) : super(key: key);
@@ -33,9 +31,24 @@ class StatsScreen extends StatelessWidget {
                   (categoryTotals[tx.category] ?? 0) + tx.amount;
             }
 
-            final List<_CategoryData> pieData = categoryTotals.entries
-                .map((e) => _CategoryData(e.key, e.value))
-                .toList();
+            // 🎨 Define a color palette
+            final List<Color> palette = [
+              const Color(0xFFEF9A9A), // soft red
+              const Color(0xFF80DEEA), // soft cyan
+              const Color(0xFFFFE082), // soft yellow
+              const Color(0xFFA5D6A7), // soft green
+              const Color(0xFFCE93D8), // soft purple
+              const Color(0xFFFFAB91), // soft orange
+              const Color(0xFFB39DDB), // soft indigo
+            ];
+
+            // Assign colors dynamically from palette
+            int colorIndex = 0;
+            final List<CategoryData> pieData = categoryTotals.entries.map((e) {
+              final color = palette[colorIndex % palette.length];
+              colorIndex++;
+              return CategoryData(e.key, e.value, color);
+            }).toList();
 
             // Group by day of month
             final Map<int, double> dailyTotals = {};
@@ -53,38 +66,9 @@ class StatsScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 25),
-                  SpendingPieChart(
-                    pieData: [
-                      CategoryData(
-                        "Food",
-                        300,
-                        const Color(0xFFEF9A9A),
-                      ), // Soft Red
-                      CategoryData(
-                        "Travel",
-                        150,
-                        const Color(0xFF80DEEA),
-                      ), // Soft Cyan
-                      CategoryData(
-                        "Shopping",
-                        220,
-                        const Color(0xFFFFE082),
-                      ), // Soft Yellow
-                      CategoryData(
-                        "Bills",
-                        180,
-                        const Color(0xFFA5D6A7),
-                      ), // Soft Green
-                      CategoryData(
-                        "Entertainment",
-                        250,
-                        const Color(0xFFCE93D8),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 20),
+                  SpendingPieChart(pieData: pieData),
 
-                  // Line Chart - Daily spending trend
                   SpendingLineChart(lineData: lineData),
                 ],
               ),
@@ -98,10 +82,4 @@ class StatsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class _CategoryData {
-  final String category;
-  final double amount;
-  _CategoryData(this.category, this.amount);
 }
