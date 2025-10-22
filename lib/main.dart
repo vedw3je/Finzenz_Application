@@ -6,7 +6,6 @@ import 'package:finzenz_app/modules/register/bloc/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'modules/home/screen/home_screen.dart';
 import 'modules/login/screen/login_screen.dart';
 
 import 'prefservice.dart';

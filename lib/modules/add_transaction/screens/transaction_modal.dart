@@ -12,8 +12,6 @@ import 'package:finzenz_app/modules/home/helpers/category_icon_mappers.dart';
 import 'package:finzenz_app/modules/home/model/account_model.dart';
 import 'package:finzenz_app/modules/home/repository/transaction_repo.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
